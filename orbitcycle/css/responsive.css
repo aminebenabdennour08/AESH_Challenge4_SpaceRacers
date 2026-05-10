@@ -1,0 +1,193 @@
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .hero-title {
+        font-size: 36px;
+    }
+    
+    .hero-stats {
+        gap: 24px;
+        flex-wrap: wrap;
+    }
+    
+    .stat-value {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-nav {
+        padding: 0 16px;
+    }
+    
+    .nav-links {
+        display: none;
+    }
+    
+    .main-content {
+        padding: 16px;
+    }
+    
+    .hero-section {
+        padding: 32px 0;
+    }
+    
+    .hero-title {
+        font-size: 28px;
+    }
+    
+    .hero-description {
+        font-size: 14px;
+    }
+    
+    .hero-stats {
+        gap: 16px;
+    }
+    
+    .stat-card {
+        min-width: 80px;
+    }
+    
+    .stat-value {
+        font-size: 20px;
+    }
+    
+    .stat-label {
+        font-size: 10px;
+    }
+    
+    .panel-body {
+        padding: 16px;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+    
+    .history-header, .history-row {
+        grid-template-columns: 60px 1fr 50px 60px 80px 60px;
+        font-size: 10px;
+        gap: 8px;
+    }
+    
+    .history-header div:nth-child(5),
+    .history-row div:nth-child(5) {
+        display: none;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    
+    .footer-links {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .gauge-ring {
+        width: 160px;
+        height: 160px;
+    }
+    
+    .gauge-value span {
+        font-size: 36px;
+    }
+    
+    .degradation-factors {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-stats {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .stat-card {
+        text-align: center;
+        width: 100%;
+    }
+    
+    .history-header, .history-row {
+        grid-template-columns: 50px 1fr 40px 50px;
+        font-size: 9px;
+    }
+    
+    .history-header div:nth-child(4),
+    .history-row div:nth-child(4),
+    .history-header div:nth-child(6),
+    .history-row div:nth-child(6) {
+        display: none;
+    }
+    
+    .comparison-content > div {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+    }
+    
+    .footer-links {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+    }
+}
+
+/* Tablet landscape */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .panel-degradation {
+        grid-column: span 2;
+    }
+    
+    .history-header, .history-row {
+        grid-template-columns: 80px 1fr 60px 60px 70px 80px 60px;
+        font-size: 11px;
+    }
+}
+
+/* Print styles */
+@media print {
+    .main-nav,
+    .form-actions,
+    .btn-icon,
+    .close-btn,
+    .nav-status {
+        display: none;
+    }
+    
+    .panel {
+        break-inside: avoid;
+        border: 1px solid #ccc;
+    }
+    
+    body {
+        background: white;
+        color: black;
+    }
+    
+    .health-score-value,
+    .stat-value {
+        color: black;
+    }
+}

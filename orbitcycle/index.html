@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OrbitCycle™ - Satellite Health & Lifecycle Intelligence</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation -->
+        <nav class="main-nav">
+            <div class="nav-brand">
+                <div class="nav-logo">🛰️</div>
+                <div class="nav-title">OrbitCycle<span class="nav-subtitle">™</span></div>
+            </div>
+            <div class="nav-links">
+                <a href="#dashboard" class="nav-link active">Dashboard</a>
+                <a href="#history" class="nav-link">Reference Library</a>
+                <a href="#analysis" class="nav-link">Deep Analysis</a>
+            </div>
+            <div class="nav-status">
+                <span class="status-indicator live"></span>
+                <span class="status-text">Live</span>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="hero-content">
+                    <div class="hero-badge">Physics-Based Health Model</div>
+                    <h1 class="hero-title">Satellite Health &<br><span class="hero-highlight">Lifecycle Intelligence</span></h1>
+                    <p class="hero-description">Predict degradation, quantify risk, and plan end-of-life using our physics-based scoring model.</p>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-card"><div class="stat-value" id="total-predictions">0</div><div class="stat-label">Predictions</div></div>
+                    <div class="stat-card"><div class="stat-value" id="unique-references">0</div><div class="stat-label">References</div></div>
+                    <div class="stat-card"><div class="stat-value" id="avg-health">0</div><div class="stat-label">Avg Health</div></div>
+                    <div class="stat-card"><div class="stat-value" id="eol-alerts">0</div><div class="stat-label">EOL Alerts</div></div>
+                </div>
+            </section>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid" id="dashboard">
+                <!-- Input Form Panel -->
+                <div class="panel panel-form">
+                    <div class="panel-header"><div class="panel-icon">📡</div><div class="panel-title">Telemetry Input</div><div class="panel-badge">Real-time</div></div>
+                    <div class="panel-body">
+                        <form id="telemetry-form">
+                            <div class="form-section">
+                                <div class="section-label">Satellite</div>
+                                <div class="form-row">
+                                    <div class="form-group"><label>Name / ID</label><input type="text" id="sat-name" value="Custom Satellite"></div>
+                                    <div class="form-group"><label>Orbit Type</label>
+                                        <select id="orbit-type"><option value="LEO">LEO</option><option value="SSO" selected>SSO</option><option value="MEO">MEO</option><option value="GEO">GEO</option><option value="HEO">HEO</option></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-section">
+                                <div class="section-label">Operational</div>
+                                <div class="form-row">
+                                    <div class="form-group"><label>Age (years)</label><input type="number" id="age-years" step="0.5" value="4.0"></div>
+                                    <div class="form-group"><label>Design Life</label><input type="number" id="design-life" step="1" value="7"></div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group"><label>Altitude (km)</label><input type="number" id="altitude" step="50" value="700"></div>
+                                    <div class="form-group"><label>Orbital Phase</label><input type="range" id="orbital-phase" min="0" max="1" step="0.01" value="0.5"><span id="phase-value">0.50</span></div>
+                                </div>
+                            </div>
+                            <div class="form-section">
+                                <div class="section-label">Electrical</div>
+                                <div class="form-row">
+                                    <div class="form-group"><label>Solar Current (A)</label><input type="number" id="solar-current" step="0.5" value="18.5"></div>
+                                    <div class="form-group"><label>Battery Voltage (V)</label><input type="number" id="battery-voltage" step="0.5" value="27.5"></div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group"><label>Temperature (°C)</label><input type="number" id="temperature" step="1" value="22"></div>
+                                    <div class="form-group"><label>Bus Voltage (V)</label><input type="number" id="bus-voltage" step="0.5" value="28.0"></div>
+                                </div>
+                            </div>
+                            <div class="form-section">
+                                <div class="section-label">Health Indicators</div>
+                                <div class="form-row">
+                                    <div class="form-group"><label>Memory Errors</label><input type="number" id="memory-errors" step="100" value="0"></div>
+                                    <div class="form-group"><label>Resets</label><input type="number" id="resets" step="1" value="0"></div>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-primary" onclick="OrbitCycle.predict()">🔬 Predict & Save</button>
+                                <button type="button" class="btn btn-secondary" onclick="OrbitCycle.resetForm()">Reset</button>
+                                <button type="button" class="btn btn-secondary" onclick="OrbitCycle.loadRandomExample()">🎲 Random</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Health Score Panel -->
+                <div class="panel panel-health">
+                    <div class="panel-header"><div class="panel-icon">🎯</div><div class="panel-title">Health Assessment</div><div class="panel-badge" id="model-badge">Heuristic</div></div>
+                    <div class="panel-body">
+                        <div class="health-gauge">
+                            <div class="gauge-ring"><svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="85" fill="none" stroke="#1f2937" stroke-width="12"/><circle cx="100" cy="100" r="85" fill="none" stroke="url(#gauge-grad)" stroke-width="12" stroke-dasharray="534" stroke-dashoffset="534" id="gauge-progress"/><defs><linearGradient id="gauge-grad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#ef4444"/><stop offset="50%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#10b981"/></linearGradient></defs></svg><div class="gauge-value"><span id="health-score">--</span><small>%</small></div></div>
+                            <div class="health-label"><span class="label-badge" id="health-label-display">--</span></div>
+                        </div>
+                        <div class="component-scores">
+                            <div class="scores-title">Component Scores</div>
+                            <div class="scores-grid">
+                                <div class="score-item"><div class="score-name">Age</div><div class="score-bar"><div class="score-fill" id="age-score-fill"></div></div><div class="score-value" id="age-score">0%</div></div>
+                                <div class="score-item"><div class="score-name">Solar</div><div class="score-bar"><div class="score-fill" id="solar-score-fill"></div></div><div class="score-value" id="solar-score">0%</div></div>
+                                <div class="score-item"><div class="score-name">Battery</div><div class="score-bar"><div class="score-fill" id="battery-score-fill"></div></div><div class="score-value" id="battery-score">0%</div></div>
+                                <div class="score-item"><div class="score-name">Thermal</div><div class="score-bar"><div class="score-fill" id="temp-score-fill"></div></div><div class="score-value" id="temp-score">0%</div></div>
+                            </div>
+                        </div>
+                        <div class="eol-panel">
+                            <div class="eol-title">📅 End-of-Life Forecast</div>
+                            <div class="eol-info"><div class="eol-row"><span>Years Left:</span><strong id="years-left">--</strong></div><div class="eol-row"><span>EOL Year:</span><strong id="eol-year">--</strong></div><div class="eol-row"><span>Recommendation:</span><span id="recommendation">--</span></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Degradation Panel -->
+                <div class="panel panel-degradation">
+                    <div class="panel-header"><div class="panel-icon">⚙️</div><div class="panel-title">Degradation</div><div class="panel-badge">Physics</div></div>
+                    <div class="panel-body">
+                        <div class="degradation-factors" id="degradation-factors">
+                            <div class="factor-card"><div class="factor-name">Solar Factor</div><div class="factor-value" id="solar-factor">--</div></div>
+                            <div class="factor-card"><div class="factor-name">Battery Factor</div><div class="factor-value" id="battery-factor">--</div></div>
+                            <div class="factor-card"><div class="factor-name">Voltage Drift</div><div class="factor-value" id="voltage-drift">--</div></div>
+                            <div class="factor-card"><div class="factor-name">Thermal Offset</div><div class="factor-value" id="temp-offset">--</div></div>
+                            <div class="factor-card"><div class="factor-name">Error Mult</div><div class="factor-value" id="error-mult">--</div></div>
+                            <div class="factor-card"><div class="factor-name">Reset Mult</div><div class="factor-value" id="reset-mult">--</div></div>
+                        </div>
+                        <div class="trend-chart"><div class="chart-title">Degradation Trend</div><canvas id="degradation-chart" height="120"></canvas></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- History Section -->
+            <section class="history-section" id="history">
+                <div class="section-header"><div class="section-header-left"><div class="section-icon">📚</div><div class="section-title">Reference Library</div><div class="section-subtitle">Unique by parameter signature</div></div>
+                <div class="section-header-right"><button class="btn-icon" onclick="OrbitCycle.exportHistory()">📤 Export</button><button class="btn-icon btn-danger" onclick="OrbitCycle.clearHistory()">🗑️ Clear</button></div></div>
+                <div class="history-container"><div class="history-table"><div class="history-header"><div class="col-ref">Ref ID</div><div class="col-sat">Satellite</div><div class="col-orbit">Orbit</div><div class="col-age">Age</div><div class="col-score">Health</div><div class="col-label">Status</div><div class="col-eol">EOL</div><div class="col-actions"></div></div><div id="history-list" class="history-list"><div class="empty-state"><div class="empty-icon">📭</div><div class="empty-text">No predictions yet</div></div></div></div></div>
+            </section>
+
+            <!-- Comparison Panel -->
+            <div class="comparison-panel" id="comparison-panel" style="display:none"><div class="comparison-header"><div class="comparison-title">📊 Reference Comparison</div><button class="close-btn" onclick="OrbitCycle.closeComparison()">✕</button></div><div class="comparison-content" id="comparison-content"></div></div>
+        </main>
+
+        <footer class="main-footer"><div class="footer-content"><div class="footer-brand"><div class="footer-logo">🛰️ OrbitCycle™</div><p class="footer-desc">Satellite Health & Lifecycle Intelligence</p></div><div class="footer-links"><div class="footer-col"><h4>Model</h4><a href="#">Physics-Based Score</a><a href="#">Degradation Factors</a></div><div class="footer-col"><h4>Data</h4><a href="#">space-track.org</a><a href="#">Celestrak TLE</a></div><div class="footer-col"><h4>Resources</h4><a href="#">API Docs</a><a href="#">GitHub</a></div></div></div><div class="footer-bottom"><p>© 2024 OrbitCycle — Orbital Sustainability Intelligence</p><p>Unique Reference System • Physics-Based</p></div></footer>
+    </div>
+
+    <script src="js/core/healthCalculator.js"></script>
+    <script src="js/core/degradationModel.js"></script>
+    <script src="js/core/predictor.js"></script>
+    <script src="js/core/storage.js"></script>
+    <script src="js/ui/dashboardUI.js"></script>
+    <script src="js/ui/charts.js"></script>
+    <script src="js/ui/animations.js"></script>
+    <script src="js/components/formHandler.js"></script>
+    <script src="js/components/historyTable.js"></script>
+    <script src="js/components/comparisonPanel.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+/* Dashboard Specific Styles */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 48px;
+}
+
+/* Panel variations */
+.panel-form { grid-column: span 1; }
+.panel-health { grid-column: span 1; }
+.panel-degradation { grid-column: span 1; }
+
+/* Score colors */
+.score-fill[data-type="age"] { background: linear-gradient(90deg, #6366f1, #8b5cf6); }
+.score-fill[data-type="solar"] { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+.score-fill[data-type="battery"] { background: linear-gradient(90deg, #10b981, #34d399); }
+.score-fill[data-type="temp"] { background: linear-gradient(90deg, #ef4444, #f87171); }
+
+/* Label badges */
+.label-Healthy { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+.label-Monitor { background: rgba(0, 212, 255, 0.2); color: #00d4ff; }
+.label-Degrading { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+.label-Critical { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+.label-Disposal { background: rgba(139, 92, 246, 0.2); color: #a78bfa; }
+
+/* Range input styling - standard version */
+input[type="range"] {
+    width: 100%;
+    background: #1f2937;
+    height: 4px;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+/* Reference badge */
+.ref-badge {
+    font-family: 'SF Mono', 'Monaco', 'Cascadia Code', monospace;
+    font-size: 10px;
+    background: #1f2937;
+    padding: 2px 6px;
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+}
+
+/* Animation keyframes */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes glow {
+    0%, 100% { box-shadow: 0 0 5px rgba(0, 212, 255, 0.2); }
+    50% { box-shadow: 0 0 20px rgba(0, 212, 255, 0.4); }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.panel {
+    animation: fadeInUp 0.4s ease-out;
+}
+
+.history-row {
+    transition: all 0.2s ease;
+}
+
+/* Status colors */
+.text-healthy { color: #10b981; }
+.text-monitor { color: #00d4ff; }
+.text-degrading { color: #f59e0b; }
+.text-critical { color: #ef4444; }
+
+/* Tooltip styles */
+.tooltip {
+    position: relative;
+    cursor: help;
+}
+
+.tooltip:hover::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1f2937;
+    color: #e8edf5;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    white-space: nowrap;
+    z-index: 1000;
+}
+
+/* Card hover effects */
+.factor-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.factor-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Score bar animations */
+.score-fill {
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Gauge ring styles */
+#gauge-progress {
+    transition: stroke-dashoffset 0.8s ease-out;
+}
+
+/* Button active states */
+.btn:active {
+    transform: scale(0.98);
+}
+
+/* History row selection */
+.history-row.selected {
+    background: #1e3a5f;
+    border-left: 3px solid #00d4ff;
+}
+
+/* Empty state styling */
+.empty-state {
+    text-align: center;
+    padding: 48px 24px;
+}
+
+.empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+.empty-text {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #9ca3af;
+}
+
+.empty-sub {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+/* Scrollbar for history list */
+.history-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/* Custom scrollbar */
+.history-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.history-list::-webkit-scrollbar-track {
+    background: #1f2937;
+    border-radius: 3px;
+}
+
+.history-list::-webkit-scrollbar-thumb {
+    background: #374151;
+    border-radius: 3px;
+}
+
+.history-list::-webkit-scrollbar-thumb:hover {
+    background: #4b5563;
+}
+
+/* Comparison panel animations */
+.comparison-panel {
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Form input focus effects */
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #00d4ff;
+    box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.1);
+}
+
+/* Loading state */
+.loading {
+    position: relative;
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid #00d4ff;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive adjustments within dashboard */
+@media (max-width: 1200px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .factor-card {
+        padding: 12px;
+    }
+    
+    .factor-value {
+        font-size: 16px;
+    }
+    
+    .component-scores {
+        padding: 12px;
+    }
+    
+    .score-name {
+        width: 50px;
+        font-size: 10px;
+    }
+    
+    .empty-icon {
+        font-size: 36px;
+    }
+    
+    .empty-text {
+        font-size: 14px;
+    }
+}
